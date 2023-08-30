@@ -1,0 +1,134 @@
+* {
+    padding: 0;
+    margin: 0;
+    background-origin: padding-box;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease-out;
+}
+
+html {
+    font-size: 16px;
+    background-color: #401c74;
+    background-image: linear-gradient(to bottom right, #401c74, #180c3b);
+}
+
+.calculator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.calc-container {
+    background-color: #1d1d1d;
+    width: 600px;
+    height: auto;
+    border-radius: 50px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.output {
+    width: 100%;
+}
+
+.operation {
+    width: 600px;
+    height: 70px;
+    color: #878787;
+    font-size: 1.9em;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.operation .value {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-shadow: none;
+}
+
+.result {
+    width: 600px;
+    height: 140px;
+    color: #FFF;
+    font-size: 2.6em;
+    font-weight: bold;
+    overflow: hidden;
+    position: relative;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+.result .value {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.input {
+    background-color: #FFF;
+    border-radius: 0 0 25px 25px;
+    border: 1px solid #1d1d1d;
+    height: 340px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transform: translateY(10px);
+}
+
+.row button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    margin: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+}
+
+.row button:hover {
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+.row #calculate {
+    color: #FFF;
+    background-color: #46e0bc;
+    width: 121px;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.row #delete {
+    color: #FFF;
+    background-color: #e05046;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#div, #mult, #sub, #adi {
+    color: #18b893;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.input button span {
+    font-size: 0.6em;
+    position: absolute;
+    transform: translateY(-20px);
+}
+
+.active-angle {
+    background-color: #1d1d1d !important;
+    color: #FFF !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    transform: scale(1.05) !important;
+}
