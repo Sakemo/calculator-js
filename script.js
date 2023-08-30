@@ -308,14 +308,14 @@ function calculator(button) {
         }else if(button.name == "delete"){
             data.operation.pop()
             data.formula.pop()
-        }else if(button.name == "rad" || button.name == "deg"){
-            if (radian == true){
-                radian = false
-            }else{
-                radian = true
-            }
+        }else if(button.name == "rad"){
+            radian = true
+            angleSwitcher()
+        }else if(button.name == "deg"){
+            radian = false
             angleSwitcher()
         }
+
 
     } else if (button.type == "calculate") {
         var formula_str = data.formula.join('');
@@ -360,18 +360,18 @@ function gamma(number) {
     }
 }
 
-function trigo(back, angle){
+function trigo(callback, angle){
     if(!radian){
         angle = angle*Math.PI/180;
     };
-    return back(angle)
+    return callback(angle)
 }
 
-function inTrigo(back, value){
-    let angle = back(angle);
+function inv_trigo(callback, value){
+    let angle = callback(value);
 
     if(!radian){
-        angle = angle*Math.PI/180
+        angle = angle*180/Math.PI;
     }
     
     return angle;
