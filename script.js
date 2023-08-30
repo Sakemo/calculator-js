@@ -1,3 +1,16 @@
+const el_input = document.querySelector('.input');
+const eo_output = document.querySelector('.operation .value');
+const er_output = document.querySelector('.result .value');
+const OPERATORS = ["+", "-", "*", "/"];
+const POWER = "POWER";
+const FACTORIAL = "FACTORIAL";
+
+let data = {
+    operation : [],
+    formula : []
+}
+let ans = 0;
+
 let calculator_buttons = [
     {
         name : "rad",
@@ -210,7 +223,71 @@ let calculator_buttons = [
     }
 ];
 
- 
+
+function CreateButtons() {
+    const button_row = 8;
+    let current_added_button = 0;
+
+    calculator_buttons.forEach(button => {
+        if (current_added_button % button_row == 0) {
+            el_input.innerHTML += `<div class="row"></div>`;
+        }
+
+        const row = document.querySelector('.row:last-child');
+        row.innerHTML += `<button id="${button.name}">
+                            ${button.symbol}
+                          </button>`;
+
+        current_added_button++;
+    });
+}
+CreateButtons();
+
+el_input.addEventListener("click", event => {
+    const clicked_btn = event.target;
+
+    calculator_buttons.forEach(button => {
+        if (button.name == clicked_btn.id) {
+            calculator(button);
+        }
+    });
+});
+
+function calculator(button) {
+    if (button.type == "operator") {
+        data.operation.push(button.symbol);
+        data.formula.push(button.formula);
+    } else if (button.type == "number") {
+        data.operation.push(button.symbol);
+        data.formula.push(button.formula);
+    } else if (button.type == "trigo_function") { 
+        // Implemente a lógica para funções trigonométricas aqui
+    } else if (button.type == "math_function") { 
+        // Implemente a lógica para funções matemáticas aqui
+    } else if (button.type == "key") {
+        // Implemente a lógica para botões de ação aqui
+    } else if (button.type == "calculate") {
+        var formula_str = data.formula.join('');
+        let result = eval(formula_str);
+        updateOutputResult(result);
+    }
+
+    updateOutputOperation(data.operation.join(''));
+}
+
+function updateOutputOperation(operation) {
+    er_output.innerHTML = operation;
+}
+
+function updateOutputResult(result) {
+    eo_output.innerHTML = result;
+}
+
+// A função gamma() não está sendo usada no código fornecido, portanto, deixei-a como está.
+function gamma(number) {
+    // Implemente a função gamma aqui, se necessário.
+}
+
 // Não sou bom em matematica a função a seguir é uma adaptação da formula que pesquisei :)
 function gamma(number) { 
     var precision_desired = 7, 
@@ -236,3 +313,4 @@ function gamma(number) {
       return Math.sqrt(2 * Math.PI) * Math.pow(t, (number + 0.5)) * Math.exp(-t) * x;
     }
 }
+
