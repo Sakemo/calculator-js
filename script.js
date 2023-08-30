@@ -334,6 +334,23 @@ function updateOutputResult(result) {
     er_output.innerHTML = result;
 }
 
+function factorial(number){
+    if(number == 0 || number == 1){
+        return 1
+    }else{
+        let result = 1;
+        for(let i = 1; i <= number; i++){
+            result = result*i
+            if(result === Infinity){
+                return Infinity
+            }
+        }
+        
+    }
+
+    return result;
+}
+
 // Não sou bom em matematica a função a seguir é uma adaptação da formula que pesquisei :)
 function gamma(number) { 
     var precision_desired = 7, 
