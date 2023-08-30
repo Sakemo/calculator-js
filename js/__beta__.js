@@ -403,7 +403,7 @@ function factorialGetter(formula, facto_search){
             let number_str = number.join('');
             const factorial = "factorial("
             const closeParent = ")";
-            let times = fact_seq +1;
+            let times = fact_seq + 1;
 
             let replacement = number_str + FACTORIAL.repeat(times);
             let replace = factorial.repeat(times) + number_str + closeParent.repeat(times);
