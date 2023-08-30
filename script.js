@@ -3,7 +3,7 @@ const eo_output = document.querySelector('.operation .value');
 const er_output = document.querySelector('.result .value');
 const OPERATORS = ["+", "-", "*", "/"];
 const POWER = "POWER";
-const FACTORIAL = "FACTORIAL";
+const FACTORIAL = "factorial(";
 
 let data = {
     operation : [],
@@ -20,7 +20,7 @@ let calculator_buttons = [
     },
     {
         name : "deg",
-        symbol : "Deg",
+        symbol : "Cº",
         formula : false,
         type : "key"
     },
@@ -247,7 +247,7 @@ let radian = true;
 const rad_btn = document.getElementById("rad");
 const deg_btn = document.getElementById("deg");
 
-deg_btn.classList.add("active-angle")
+rad_btn.classList.add("active-angle")
 
 function angleSwitcher(){
     rad_btn.classList.toggle("active-angle");
@@ -319,11 +319,146 @@ function calculator(button) {
 
     } else if (button.type == "calculate") {
         var formula_str = data.formula.join('');
-        let result = eval(formula_str);
+
+        let power_search = search(data.formula, POWER);
+        let facto_search = search(data.formula, FACTORIAL)
+
+        const Bases = powerBaseGetter(data.formula, power_search);
+        Bases.forEach( base =>{
+            let replacement = base + POWER;
+            let replace = "Math.pow(" + base + ",";
+
+            formula_str = formula_str.replace(replacement, replace);
+        })
+
+        const NUMBERS = factorialGetter(data.formula, facto_search);
+        NUMBERS.forEach(factorial =>{
+            formula_str = formula_str.replace(factorial.toReplace, factorial.replacement)
+        })
+
+        console.log(formula_str)
+
+        let result;
+
+        try{
+            result = eval(formula_str)
+        }catch( error ){
+            if (error instanceof SyntaxError){
+                result = "Syntax Error";
+                updateOutputResult(result);
+                return;
+            }
+        }
+
+        ans = result;
+        data.operation = [result];
+        data.formula = [result];
         updateOutputResult(result);
+        return;
+
     }
 
     updateOutputOperation(data.operation.join(''));
+}
+
+function factorialGetter(formula, facto_search){
+    let numbers_get = [];
+    let fact_seq = 0;
+
+    facto_search.forEach(factorial_index =>{
+        let number = [];
+
+        let nxt_index = factorial_index + 1;
+        let nxt_input = formula[nxt_index];
+
+        if(nxt_index == FACTORIAL){
+            fact_seq += 1;
+            return
+        }else{
+
+            let first_fact = factorial_index - fact_seq;
+            let p_index = first_fact - 1;
+            let parent =  0;
+
+            while( p_index >= 0 ){
+
+                if(formula[p_index] == "(") parent--;
+                if(formula[p_index] == ")") parent++;
+
+                let operator_switch = false;
+                OPERATORS.forEach(operator =>{
+                    if(formula[p_index] == operator){
+                        operator_switch = true;
+                    };
+                })
+            
+                if (operator_switch && parent == 0){
+                    break;
+                };
+
+                number.unshift(formula[p_index]);
+                p_index--;
+            }
+
+            let number_str = number.join('');
+            const factorial = "factorial("
+            const closeParent = ")";
+            let times = fact_seq +1;
+
+            let replacement = number_str + FACTORIAL.repeat(times);
+            let replace = factorial.repeat(times) + number_str + closeParent.repeat(times);
+
+            numbers_get.push({
+                toReplace : replacement,
+                replacement : replace
+            })
+
+            fact_seq = 0
+        }
+
+    })
+    return numbers_get
+}
+
+function powerBaseGetter(formula, power_search) {
+    let power_bases = [];
+    power_search.forEach(power_index => {
+        let base = [];
+        let parent = 0;
+        let p_index = power_index - 1;
+
+        while (p_index >= 0) {
+            if (formula[p_index] === "(") parent--;
+            if (formula[p_index] === ")") parent++;
+
+            let operator_switch = false;
+            OPERATORS.forEach(operator => {
+                if (formula[p_index] === operator) operator_switch = true;
+            });
+
+            let power_switch = formula[p_index] === POWER;
+
+            if ((operator_switch && parent === 0) || power_switch) break;
+
+            base.unshift(formula[p_index]);
+            p_index--;
+        }
+
+        power_bases.push(base.join(''));
+    });
+
+    return power_bases;
+}
+
+
+function search(array, keyword){
+    let resultSearch = [];
+
+    array.forEach((element, index) =>{
+        if(element == keyword) resultSearch.push(index);
+    })
+
+    return resultSearch;
 }
 
 function updateOutputOperation(operation) {
@@ -335,18 +470,19 @@ function updateOutputResult(result) {
 }
 
 function factorial(number){
+    if (number % 1 !=0) return gamma(number + 1);
     if(number == 0 || number == 1){
-        return 1
+        return 1;
     }else{
-        let result = 1;
+        var result = 1;
         for(let i = 1; i <= number; i++){
-            result = result*i
+            result *= i;
             if(result === Infinity){
-                return Infinity
-            }
-        }
+                return Infinity;
+            };
+        };
         
-    }
+    };
 
     return result;
 }
@@ -381,7 +517,7 @@ function trigo(callback, angle){
     if(!radian){
         angle = angle*Math.PI/180;
     };
-    return callback(angle)
+    return callback(angle);
 }
 
 function inv_trigo(callback, value){
