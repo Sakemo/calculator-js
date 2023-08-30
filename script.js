@@ -243,6 +243,17 @@ function CreateButtons() {
 }
 CreateButtons();
 
+let radian = true;
+const rad_btn = document.getElementById("rad");
+const deg_btn = document.getElementById("deg");
+
+deg_btn.classList.add("active-angle")
+
+function angleSwitcher(){
+    rad_btn.classList.toggle("active-angle");
+    deg_btn.classList.toggle("active-angle");
+}
+
 el_input.addEventListener("click", event => {
     const clicked_btn = event.target;
 
@@ -261,11 +272,51 @@ function calculator(button) {
         data.operation.push(button.symbol);
         data.formula.push(button.formula);
     } else if (button.type == "trigo_function") { 
-        // Implemente a lógica para funções trigonométricas aqui
+        data.operation.push(button.symbol + "(");
+        data.formula.push(button.formula)
     } else if (button.type == "math_function") { 
-        // Implemente a lógica para funções matemáticas aqui
-    } else if (button.type == "key") {
-        // Implemente a lógica para botões de ação aqui
+        let symbol, formula
+
+        if(button.name == "factorial"){
+            symbol = "!";
+            formula = button.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        }else if(button.name == "power"){
+            symbol = "^(";
+            formula = button.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        }else if(button.name == "square"){
+            symbol = "^(";
+            formula = button.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
+            data.operation.push("2");
+            data.formula.push("2)");
+        }else{
+            symbol = button.symbol + "(";
+            formula = button.formula + "(";
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        }
+    }else if (button.type == "key") {
+        if (button.name == "clear"){
+            data.operation = [];
+            data.formula = [];
+            updateOutputResult(0)
+        }else if(button.name == "delete"){
+            data.operation.pop()
+            data.formula.pop()
+        }else if(button.name == "rad" || button.name == "deg"){
+            if (radian == true){
+                radian = false
+            }else{
+                radian = true
+            }
+            angleSwitcher()
+        }
+
     } else if (button.type == "calculate") {
         var formula_str = data.formula.join('');
         let result = eval(formula_str);
@@ -276,16 +327,11 @@ function calculator(button) {
 }
 
 function updateOutputOperation(operation) {
-    er_output.innerHTML = operation;
+    eo_output.innerHTML = operation;
 }
 
 function updateOutputResult(result) {
-    eo_output.innerHTML = result;
-}
-
-// A função gamma() não está sendo usada no código fornecido, portanto, deixei-a como está.
-function gamma(number) {
-    // Implemente a função gamma aqui, se necessário.
+    er_output.innerHTML = result;
 }
 
 // Não sou bom em matematica a função a seguir é uma adaptação da formula que pesquisei :)
@@ -314,3 +360,19 @@ function gamma(number) {
     }
 }
 
+function trigo(back, angle){
+    if(!radian){
+        angle = angle*Math.PI/180;
+    };
+    return back(angle)
+}
+
+function inTrigo(back, value){
+    let angle = back(angle);
+
+    if(!radian){
+        angle = angle*Math.PI/180
+    }
+    
+    return angle;
+}
