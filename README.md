@@ -1,3 +1,13 @@
+## Demo / Demonstração
+
+- [Try the Scientific Calculator PRO](https://sakemo.github.io/calculator-js/)
+
+### English - USA
+Feel free to try out the Scientific Calculator PRO by following the link above. You can explore its features and capabilities to perform various mathematical and scientific calculations.
+
+### Português - BR
+Sinta-se à vontade para experimentar a Calculadora Científica PRO seguindo o link acima. Você pode explorar suas funcionalidades e capacidades para realizar diversos cálculos matemáticos e científicos.
+
 ### Português - BR
 Calculadora Científica PRO
 
